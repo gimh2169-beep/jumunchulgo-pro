@@ -1,11 +1,11 @@
 {
-  "name": "주문출고 PRO",
-  "short_name": "주문출고",
-  "start_url": "./index.html?v=58",
+  "name": "Order Pro Lite",
+  "short_name": "OrderLite",
+  "start_url": "./index.html?v=0.2",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07090c",
-  "theme_color": "#07090c",
+  "background_color": "#080a0d",
+  "theme_color": "#080a0d",
   "orientation": "portrait",
   "icons": [
     {
