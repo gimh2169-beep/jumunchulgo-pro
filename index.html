@@ -1,17 +1,17 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>주문출고_PRO_v52</title>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>주문출고_PRO_v53</title>
 <style>
 :root{
-  --bg:#080a0d;
-  --panel:#11151b;
-  --panel2:#0d1015;
-  --line:rgba(255,255,255,.085);
+  --bg:#07090c;
+  --side:#06070a;
+  --panel:#11151a;
+  --panel2:#0c1015;
+  --line:rgba(255,255,255,.08);
   --line2:rgba(255,255,255,.14);
   --text:#f5f7fa;
-  --muted:#8c949f;
-  --muted2:#5f6874;
+  --muted:#8f96a3;
+  --muted2:#5f6772;
   --green:#20d878;
-  --green2:#10a85b;
-  --amber:#ffb020;
+  --amber:#ffb11b;
   --red:#ff5967;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -19,14 +19,14 @@ html{background:var(--bg);scroll-behavior:smooth}
 body{
   margin:0;
   min-height:100vh;
-  padding:0 14px 96px;
+  padding:0 14px 92px;
   color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
-  letter-spacing:-.38px;
+  letter-spacing:-.42px;
   background:
-    radial-gradient(circle at 50% -8%,rgba(255,255,255,.07),transparent 26%),
-    radial-gradient(circle at 96% 6%,rgba(32,216,120,.06),transparent 24%),
-    linear-gradient(180deg,#080a0d 0%,#0a0d11 48%,#080a0d 100%);
+    radial-gradient(circle at 55% -8%,rgba(255,255,255,.07),transparent 28%),
+    radial-gradient(circle at 92% 6%,rgba(32,216,120,.06),transparent 23%),
+    linear-gradient(180deg,#07090c 0%,#0a0d11 48%,#07090c 100%);
 }
 body:before{
   content:"";
@@ -36,7 +36,7 @@ body:before{
   background:
     linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px),
     linear-gradient(rgba(255,255,255,.01) 1px,transparent 1px);
-  background-size:56px 56px;
+  background-size:58px 58px;
   opacity:.16;
   mask-image:linear-gradient(to bottom,black,transparent 82%);
 }
@@ -45,8 +45,8 @@ body:before{
   top:0;
   z-index:50;
   margin:0 -14px 14px;
-  padding:18px 14px 14px;
-  background:linear-gradient(180deg,rgba(8,10,13,.97),rgba(8,10,13,.82));
+  padding:17px 14px 14px;
+  background:linear-gradient(180deg,rgba(7,9,12,.98),rgba(7,9,12,.82));
   backdrop-filter:blur(22px);
   -webkit-backdrop-filter:blur(22px);
   border-bottom:1px solid var(--line);
@@ -87,19 +87,20 @@ h1:before{display:none!important}
   overflow:hidden;
   border:1px solid var(--line);
   border-radius:18px;
-  background:rgba(17,21,27,.72);
+  background:rgba(17,21,26,.72);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
 }
 .stat{
   min-height:104px;
   padding:18px 16px;
-  background:transparent;
-  border:0;
-  border-radius:0;
-  box-shadow:none;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
 }
-.stat:nth-child(1),.stat:nth-child(3){border-right:1px solid var(--line)}
-.stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)}
-.stat:after{display:none}
+.stat:nth-child(1),.stat:nth-child(3){border-right:1px solid var(--line)!important}
+.stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)!important}
+.stat:after{display:none!important}
 .stat span{
   display:block;
   color:#c4c9d2;
@@ -130,11 +131,12 @@ h1:before{display:none!important}
 .jump button{
   border:0;
   border-radius:13px;
-  min-height:42px;
+  min-height:44px;
   background:transparent;
   color:#b9c0ca;
   font-size:13px;
   font-weight:900;
+  touch-action:manipulation;
 }
 .jump button:first-child{
   background:rgba(32,216,120,.14);
@@ -144,13 +146,13 @@ h1:before{display:none!important}
   position:relative;
   margin:12px 0;
   padding:16px;
-  background:rgba(17,21,27,.72);
+  background:rgba(17,21,26,.72);
   border:1px solid var(--line);
   border-radius:20px;
   box-shadow:0 18px 50px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.025);
   overflow:hidden;
 }
-.card:before{display:none}
+.card:before{display:none!important}
 h2{
   margin:0 0 14px;
   font-size:20px;
@@ -187,7 +189,11 @@ button{
   padding:12px 10px;
   font-size:14px;
   font-weight:900;
+  min-height:44px;
   transition:transform .09s ease,opacity .09s ease,background .09s ease;
+  touch-action:manipulation;
+  cursor:pointer;
+  pointer-events:auto;
 }
 button:active{transform:scale(.975)}
 button:disabled{opacity:.55}
@@ -228,14 +234,14 @@ button:disabled{opacity:.55}
   padding:0 0 10px;
   border:0;
   border-radius:0;
-  background:transparent;
+  background:transparent!important;
   color:#a7adb8;
   text-align:center;
 }
 .tile.on{
   color:#fff;
   border-bottom:2px solid var(--green);
-  box-shadow:none;
+  box-shadow:none!important;
 }
 .name{font-size:16px;font-weight:950}
 .num{
@@ -267,7 +273,7 @@ button:disabled{opacity:.55}
 }
 .listrow{
   display:grid;
-  grid-template-columns:minmax(0,1fr) 60px 54px 44px 58px;
+  grid-template-columns:minmax(0,1fr) 58px 52px 42px 58px;
   gap:6px;
   align-items:center;
   min-height:78px;
@@ -300,6 +306,7 @@ button:disabled{opacity:.55}
 }
 .listrow button{
   min-width:0;
+  min-height:44px;
   padding:10px 2px;
   border-radius:12px;
   font-size:12px;
@@ -366,11 +373,38 @@ details.issue .row{padding:0 12px 12px}
   }
   h1{font-size:17px;margin-top:14px}
   .sub{font-size:12px}
-  .stats{grid-template-columns:1fr;border-radius:0;border-left:0;border-right:0}
-  .stat{border-right:0!important;border-bottom:1px solid var(--line)!important}
-  .jump{grid-template-columns:1fr;border:0;background:transparent;padding:0;gap:10px}
-  .jump button{text-align:left;padding-left:16px}
-  .jump button:first-child{background:rgba(32,216,120,.14)}
+  .stats{
+    grid-template-columns:repeat(4,1fr);
+    border-radius:18px;
+    border:1px solid var(--line);
+  }
+  .stat{
+    min-height:134px;
+    padding:30px 34px;
+    border-bottom:0!important;
+  }
+  .stat:nth-child(1),.stat:nth-child(3){border-right:1px solid var(--line)!important}
+  .stat:nth-child(2){border-right:1px solid var(--line)!important}
+  .stat b{font-size:45px;margin-top:27px}
+  .jump{
+    grid-template-columns:repeat(4,1fr);
+    border:0;
+    background:transparent;
+    padding:0;
+    gap:22px;
+    border-bottom:1px solid var(--line);
+    border-radius:0;
+  }
+  .jump button{
+    border-radius:0;
+    padding-bottom:13px;
+    background:transparent!important;
+    text-align:center;
+  }
+  .jump button:first-child{
+    color:#fff;
+    border-bottom:2px solid var(--green);
+  }
   .card{max-width:920px}
 }
 </style>
@@ -378,22 +412,22 @@ details.issue .row{padding:0 12px 12px}
 <meta name="theme-color" content="#09090b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="주문출고 PRO V52">
+<meta name="apple-mobile-web-app-title" content="주문출고 PRO V53">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
 </head><body>
-<div class="topbar"><h1>주문출고 PRO V44</h1><div class="sub">Mobile Stable UI · 출고 즉시반영</div>
+<div class="topbar"><h1>주문출고 PRO V44</h1><div class="sub">Minimal Brand UI · 출고 즉시반영 · 안정판</div>
 <div class="stats"><div class="stat"><span>행</span><b id="sr">0</b></div><div class="stat"><span>주문</span><b id="so">0</b></div><div class="stat"><span>출고</span><b id="ss">0</b></div><div class="stat"><span>미출</span><b id="sm" class="rem">0</b></div></div>
 <div class="jump"><button onclick="go('order')">주문</button><button onclick="go('searchSec')">검색</button><button onclick="go('dash')">미출</button><button onclick="go('reportSec')">리포트</button></div></div>
 
-<div id="order" class="card"><div class="top"><h2>주문</h2><button onclick="toggleOrder()">접기/펼치기</button></div><div id="orderPanel"><select id="store"><option>세종</option><option>월평</option><option>관평</option><option>도마</option><option>갈마</option></select><textarea id="txt" placeholder="단일 점포 또는 5점포 전체 주문 붙여넣기"></textarea><div class="row"><button class="p" onclick="add()">등록/교체</button><button onclick="preview()">등록 전 검증</button><button class="bad" onclick="resetAll()">초기화</button></div><div id="prev"></div></div></div>
+<div id="order" class="card"><div class="top"><h2>① 주문 입력</h2><button onclick="toggleOrder()">접기/펼치기</button></div><div id="orderPanel"><select id="store"><option>세종</option><option>월평</option><option>관평</option><option>도마</option><option>갈마</option></select><textarea id="txt" placeholder="단일 점포 또는 5점포 전체 주문 붙여넣기"></textarea><div class="row"><button class="p" onclick="add()">등록/교체</button><button onclick="preview()">등록 전 검증</button><button class="bad" onclick="resetAll()">초기화</button></div><div id="prev"></div></div></div>
 
-<div id="searchSec" class="card"><h2>검색 / 미출</h2><input id="searchBox" placeholder="품목 검색..." oninput="searchItems()" onkeydown="if(event.key==='Enter')shipSearch()"><div class="row"><button onclick="itemRemainList()">품목별 미출고</button><button onclick="storeRemainList()">점포별 미출고</button><button class="ok" onclick="shipSearch()">검색결과 전체출고</button></div><div id="searchOut"></div></div>
+<div id="searchSec" class="card"><h2>② 검색 / 총합</h2><input id="searchBox" placeholder="품목명 검색: 새송이, 샤송이, 막타리, 쫑" oninput="searchItems()" onkeydown="if(event.key==='Enter')shipSearch()"><div class="row"><button onclick="itemRemainList()">품목별 미출고</button><button onclick="storeRemainList()">점포별 미출고</button><button class="ok" onclick="shipSearch()">검색결과 전체출고</button></div><div id="searchOut"></div></div>
 
-<div id="dash" class="card"><h2>출고</h2><div id="sum" class="msg info"></div><div class="row"><button onclick="showDone=!showDone;save()">완료품목 보기/숨기기</button><button class="ok" onclick="shipStore()">이 점포 전체출고</button><button onclick="cycle(-1)">←</button><button onclick="cycle(1)">→</button></div><div id="board" class="board" style="margin-top:8px"></div><h2 id="stitle"></h2><div id="detail"></div></div>
+<div id="dash" class="card"><h2>③ 실시간 미출</h2><div id="sum" class="msg info"></div><div class="row"><button onclick="showDone=!showDone;save()">완료품목 보기/숨기기</button><button class="ok" onclick="shipStore()">이 점포 전체출고</button><button onclick="cycle(-1)">←</button><button onclick="cycle(1)">→</button></div><div id="board" class="board" style="margin-top:8px"></div><h2 id="stitle"></h2><div id="detail"></div></div>
 
-<div id="reportSec" class="card"><h2>리포트</h2><div class="row"><button class="p" onclick="makeReport()">리포트</button><button onclick="backup()">백업</button><button onclick="restoreAuto()">자동복구</button><button class="w" onclick="undo()">되돌리기</button></div><div id="reportBox"></div></div>
-<div class="card"><h2>이력</h2><div id="logBox"></div></div>
+<div id="reportSec" class="card"><h2>④ 종료 리포트 / 백업</h2><div class="row"><button class="p" onclick="makeReport()">리포트</button><button onclick="backup()">백업</button><button onclick="restoreAuto()">자동복구</button><button class="w" onclick="undo()">되돌리기</button></div><div id="reportBox"></div></div>
+<div class="card"><h2>⑤ 이력</h2><div id="logBox"></div></div>
 
 <script>
 const STORES=["세종","월평","관평","도마","갈마"];
@@ -406,11 +440,11 @@ const CATEGORY_ORDER=[
 ];
 
 const alias={"샤송이":"새송이","새성이":"새송이","샤성이":"새송이","막타리":"맛타리","팽이버섯":"팽이","수입쫑":"마늘쫑","쫑":"마늘쫑","고추잎":"고춧잎","거추잎":"고춧잎","묵":"스치묵","느타리":"스치느타리","세척":"세척당근","쌈배추":"알배기","백오이":"오이","미니":"미니파프리카","취":"취나물","초당":"초당옥수수","미백":"미백찰옥수수","두부":"팩두부","두부3키로":"두부3kg","빨파":"홍파","궁채":"건궁채","오이지오이":"오이지","흑찰":"흙찰옥수수"};
-const MIG_ROWS=localStorage.getItem("v52_rows")||localStorage.getItem("v51_rows")||localStorage.getItem("v50_rows")||localStorage.getItem("v49_rows")||localStorage.getItem("v48_rows")||localStorage.getItem("v47_rows")||localStorage.getItem("v46_rows")||localStorage.getItem("v45_rows")||localStorage.getItem("v44_rows")||localStorage.getItem("v43_rows")||localStorage.getItem("v42_rows")||localStorage.getItem("v41_rows");
-const MIG_HIST=localStorage.getItem("v52_hist")||localStorage.getItem("v51_hist")||localStorage.getItem("v50_hist")||localStorage.getItem("v49_hist")||localStorage.getItem("v48_hist")||localStorage.getItem("v47_hist")||localStorage.getItem("v46_hist")||localStorage.getItem("v45_hist")||localStorage.getItem("v44_hist")||localStorage.getItem("v43_hist")||localStorage.getItem("v42_hist")||localStorage.getItem("v41_hist");
-let rows=JSON.parse(MIG_ROWS||"[]"),hist=JSON.parse(MIG_HIST||"[]"),sel=localStorage.getItem("v52_store")||localStorage.getItem("v51_store")||localStorage.getItem("v50_store")||localStorage.getItem("v49_store")||localStorage.getItem("v48_store")||localStorage.getItem("v47_store")||localStorage.getItem("v46_store")||localStorage.getItem("v45_store")||localStorage.getItem("v44_store")||localStorage.getItem("v43_store")||localStorage.getItem("v42_store")||localStorage.getItem("v41_store")||"세종",showDone=JSON.parse(localStorage.getItem("v52_done")||localStorage.getItem("v51_done")||localStorage.getItem("v50_done")||localStorage.getItem("v49_done")||localStorage.getItem("v48_done")||localStorage.getItem("v47_done")||localStorage.getItem("v46_done")||localStorage.getItem("v45_done")||localStorage.getItem("v44_done")||localStorage.getItem("v43_done")||localStorage.getItem("v42_done")||localStorage.getItem("v41_done")||"false");
-const MIG_HIST=localStorage.getItem("v52_hist")||localStorage.getItem("v52_hist")||localStorage.getItem("v52_hist")||localStorage.getItem("v52_hist");
-let rows=JSON.parse(MIG_ROWS||"[]"),hist=JSON.parse(MIG_HIST||"[]"),sel=localStorage.getItem("v52_store")||localStorage.getItem("v52_store")||localStorage.getItem("v52_store")||localStorage.getItem("v52_store")||"세종",showDone=JSON.parse(localStorage.getItem("v52_done")||localStorage.getItem("v52_done")||localStorage.getItem("v52_done")||localStorage.getItem("v52_done")||"false");
+const MIG_ROWS=localStorage.getItem("v53_rows")||localStorage.getItem("v52_rows")||localStorage.getItem("v51_rows")||localStorage.getItem("v50_rows")||localStorage.getItem("v49_rows")||localStorage.getItem("v48_rows")||localStorage.getItem("v47_rows")||localStorage.getItem("v46_rows")||localStorage.getItem("v45_rows")||localStorage.getItem("v44_rows")||localStorage.getItem("v43_rows")||localStorage.getItem("v42_rows")||localStorage.getItem("v41_rows");
+const MIG_HIST=localStorage.getItem("v53_hist")||localStorage.getItem("v52_hist")||localStorage.getItem("v51_hist")||localStorage.getItem("v50_hist")||localStorage.getItem("v49_hist")||localStorage.getItem("v48_hist")||localStorage.getItem("v47_hist")||localStorage.getItem("v46_hist")||localStorage.getItem("v45_hist")||localStorage.getItem("v44_hist")||localStorage.getItem("v43_hist")||localStorage.getItem("v42_hist")||localStorage.getItem("v41_hist");
+let rows=JSON.parse(MIG_ROWS||"[]"),hist=JSON.parse(MIG_HIST||"[]"),sel=localStorage.getItem("v53_store")||localStorage.getItem("v52_store")||localStorage.getItem("v51_store")||localStorage.getItem("v50_store")||localStorage.getItem("v49_store")||localStorage.getItem("v48_store")||localStorage.getItem("v47_store")||localStorage.getItem("v46_store")||localStorage.getItem("v45_store")||localStorage.getItem("v44_store")||localStorage.getItem("v43_store")||localStorage.getItem("v42_store")||localStorage.getItem("v41_store")||"관평",showDone=JSON.parse(localStorage.getItem("v53_done")||localStorage.getItem("v52_done")||localStorage.getItem("v51_done")||localStorage.getItem("v50_done")||localStorage.getItem("v49_done")||localStorage.getItem("v48_done")||localStorage.getItem("v47_done")||localStorage.getItem("v46_done")||localStorage.getItem("v45_done")||localStorage.getItem("v44_done")||localStorage.getItem("v43_done")||localStorage.getItem("v42_done")||localStorage.getItem("v41_done")||"false");
+const MIG_HIST=localStorage.getItem("v53_hist")||localStorage.getItem("v53_hist")||localStorage.getItem("v53_hist")||localStorage.getItem("v53_hist");
+let rows=JSON.parse(MIG_ROWS||"[]"),hist=JSON.parse(MIG_HIST||"[]"),sel=localStorage.getItem("v53_store")||localStorage.getItem("v53_store")||localStorage.getItem("v53_store")||localStorage.getItem("v53_store")||"세종",showDone=JSON.parse(localStorage.getItem("v53_done")||localStorage.getItem("v53_done")||localStorage.getItem("v53_done")||localStorage.getItem("v53_done")||"false");
 let searchMode="";
 let isRefreshingSearch=false;
 function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"})}
@@ -419,11 +453,11 @@ function norm(s){let x=compact(s).replace(/^행사/,"").replace(/상$/,"");retur
 function unit(s){if(/박스|스티/.test(s))return"박스";if(/단/.test(s))return"단";if(/망/.test(s))return"망";if(/키로|kg/i.test(s))return"kg";return""}
 function rem(r){return Math.max(0,r.order-r.ship)}
 function save(opts={}){
- localStorage.setItem("v52_rows",JSON.stringify(rows));
- localStorage.setItem("v52_hist",JSON.stringify(hist));
- localStorage.setItem("v52_store",sel);
- localStorage.setItem("v52_done",JSON.stringify(showDone));
- localStorage.setItem("v52_auto",JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()}));
+ localStorage.setItem("v53_rows",JSON.stringify(rows));
+ localStorage.setItem("v53_hist",JSON.stringify(hist));
+ localStorage.setItem("v53_store",sel);
+ localStorage.setItem("v53_done",JSON.stringify(showDone));
+ localStorage.setItem("v53_auto",JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()}));
  render();
  if(opts.refreshSearch!==false)refreshSearchPanel();
 }
@@ -705,8 +739,8 @@ function shipSearch(){
 function undo(){for(let i=hist.length-1;i>=0;i--){if(hist[i].type=="출고"){hist[i].changes.forEach(c=>{let r=rows.find(x=>x.id==c.id);if(r)r.ship=Math.max(0,r.ship-c.qty)});hist.splice(i,1);save();return}}alert("취소할 출고 없음")}
 function drawLogs(){logBox.innerHTML=hist.slice().reverse().map(l=>`<div class=issue><b>${l.type}</b> <span class=small>${l.time}</span><br>${l.changes?l.changes.map(c=>c.store+" "+c.item+" "+c.qty+c.unit).join(", "):l.text}</div>`).join("")||"<div class='msg info'>로그 없음</div>"}
 function makeReport(){let o=rows.reduce((a,r)=>a+r.order,0),s=rows.reduce((a,r)=>a+r.ship,0),m=rows.reduce((a,r)=>a+rem(r),0);reportBox.innerHTML=`<div class=issue><b>하루 종료 리포트</b><br>주문 ${o} / 출고 ${s} / 미출 ${m}<br>출고율 ${o?Math.round(s/o*100):0}%</div>`}
-function backup(){let data=JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()},null,2),b=new Blob([data],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="주문출고_PRO_v52_백업.json";a.click()}
-function restoreAuto(){let b=localStorage.getItem("v52_auto");if(!b)return alert("자동백업 없음");let d=JSON.parse(b);rows=d.rows||[];hist=d.hist||[];sel=d.sel||"세종";showDone=!!d.showDone;save()}
+function backup(){let data=JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()},null,2),b=new Blob([data],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="주문출고_PRO_v53_백업.json";a.click()}
+function restoreAuto(){let b=localStorage.getItem("v53_auto");if(!b)return alert("자동백업 없음");let d=JSON.parse(b);rows=d.rows||[];hist=d.hist||[];sel=d.sel||"세종";showDone=!!d.showDone;save()}
 function resetAll(){if(confirm("정말 초기화?")&&confirm("진짜 초기화?")){rows=[];hist=[];save()}}
 function cycle(n){let i=STORES.indexOf(sel);sel=STORES[(i+n+STORES.length)%STORES.length];save()}
 function toggleOrder(){orderPanel.classList.toggle("hide")}
@@ -732,7 +766,7 @@ render();
 
 
 <script>
-window.APP_VERSION="v52-mobile-stable-nosw";
+window.APP_VERSION="v53-touch-dashboard-nosw";
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
     navigator.serviceWorker.getRegistrations().then(function(regs){
@@ -748,4 +782,17 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+
+<script>
+document.addEventListener("click", function(e){
+  const b=e.target.closest("[data-act]");
+  if(!b) return;
+  const id=b.dataset.id;
+  const act=b.dataset.act;
+  if(typeof shipOne==="function" && act==="one") shipOne(id);
+  if(typeof shipAll==="function" && act==="all") shipAll(id);
+  if(typeof editOne==="function" && act==="edit") editOne(id);
+});
+</script>
+
 </body></html>
