@@ -1,16 +1,14 @@
-주문출고 PRO PWA v42 - Safari 캐시 오류 수정 안정판
+주문출고 PRO PWA v43 - No Service Worker 안정판
 
-수정사항:
-- Safari 오류: Response served by service worker has redirections 해결
-- Service Worker 네트워크 우선 방식으로 재작성
-- 오래된 v40/v41 캐시 자동 제거
-- 출고 버튼 즉시 반영 유지
-- 검색결과 / 품목별 / 점포별 미출고 자동 갱신 유지
-- v41/v40 localStorage 데이터 자동 승계
+목적:
+- iPhone Safari 오류 "Response served by service worker has redirections" 완전 차단
+- Service Worker 캐시 제거
+- 출고 즉시 반영 기능 유지
+- 오늘 실사용 안정성 우선
 
-업로드 방법:
+업로드:
 1. ZIP 압축 해제
-2. GitHub 저장소 jumunchulgo-pro에 아래 파일을 덮어쓰기 업로드
+2. GitHub 저장소에 아래 6개 파일 덮어쓰기
    - index.html
    - manifest.json
    - sw.js
@@ -18,10 +16,8 @@
    - icon-512.png
    - README.txt
 3. Commit changes
-4. Cloudflare Pages 자동 배포 대기
-5. 아이폰 홈화면 앱 삭제 후 Safari에서 pages.dev 접속
-6. 공유 > 홈 화면에 추가
-
-중요:
-- 기존 홈화면 앱은 반드시 삭제 후 다시 추가 권장
-- Safari에서 한 번 직접 접속해서 정상 확인 후 홈화면에 추가
+4. Cloudflare 자동 배포 대기
+5. 기존 홈화면 앱 삭제
+6. iPhone 설정 > Safari > 고급 > 웹 사이트 데이터 > jumunchulgo-pro.pages.dev 삭제
+7. Safari에서 https://jumunchulgo-pro.pages.dev/index.html?v=43 접속
+8. 정상 확인 후 홈 화면에 추가

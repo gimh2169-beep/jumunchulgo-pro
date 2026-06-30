@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>주문출고_PRO_v42</title>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>주문출고_PRO_v43</title>
 <style>
 :root{
   --bg:#09090b;
@@ -298,7 +298,7 @@ button:disabled{opacity:.55}
 <link rel="apple-touch-icon" href="./icon-192.png">
 
 </head><body>
-<div class="topbar"><h1>주문출고 PRO V42</h1><div class="sub">Safari 캐시오류 수정 · 출고 즉시반영 · 안정형 PWA</div>
+<div class="topbar"><h1>주문출고 PRO V43</h1><div class="sub">Service Worker 제거 · 출고 즉시반영 · 실사용 안정판</div>
 <div class="stats"><div class="stat"><span>행</span><b id="sr">0</b></div><div class="stat"><span>주문</span><b id="so">0</b></div><div class="stat"><span>출고</span><b id="ss">0</b></div><div class="stat"><span>미출</span><b id="sm" class="rem">0</b></div></div>
 <div class="jump"><button onclick="go('order')">주문</button><button onclick="go('searchSec')">검색</button><button onclick="go('dash')">미출</button><button onclick="go('reportSec')">리포트</button></div></div>
 
@@ -322,9 +322,7 @@ const CATEGORY_ORDER=[
 ];
 
 const alias={"샤송이":"새송이","새성이":"새송이","샤성이":"새송이","막타리":"맛타리","팽이버섯":"팽이","수입쫑":"마늘쫑","쫑":"마늘쫑","고추잎":"고춧잎","거추잎":"고춧잎","묵":"스치묵","느타리":"스치느타리","세척":"세척당근","쌈배추":"알배기","백오이":"오이","미니":"미니파프리카","취":"취나물","초당":"초당옥수수","미백":"미백찰옥수수","두부":"팩두부","두부3키로":"두부3kg","빨파":"홍파","궁채":"건궁채","오이지오이":"오이지","흑찰":"흙찰옥수수"};
-const OLD_ROWS=localStorage.getItem("v42_rows")||localStorage.getItem("v41_rows")||localStorage.getItem("v40_rows");
-const OLD_HIST=localStorage.getItem("v42_hist")||localStorage.getItem("v41_hist")||localStorage.getItem("v40_hist");
-let rows=JSON.parse(OLD_ROWS||"[]"),hist=JSON.parse(OLD_HIST||"[]"),sel=localStorage.getItem("v42_store")||localStorage.getItem("v41_store")||localStorage.getItem("v40_store")||"세종",showDone=JSON.parse(localStorage.getItem("v42_done")||localStorage.getItem("v41_done")||localStorage.getItem("v40_done")||"false");
+let rows=JSON.parse(localStorage.getItem("v43_rows")||"[]"),hist=JSON.parse(localStorage.getItem("v43_hist")||"[]"),sel=localStorage.getItem("v43_store")||"세종",showDone=JSON.parse(localStorage.getItem("v43_done")||"false");
 let searchMode="";
 let isRefreshingSearch=false;
 function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"})}
@@ -333,11 +331,11 @@ function norm(s){let x=compact(s).replace(/^행사/,"").replace(/상$/,"");retur
 function unit(s){if(/박스|스티/.test(s))return"박스";if(/단/.test(s))return"단";if(/망/.test(s))return"망";if(/키로|kg/i.test(s))return"kg";return""}
 function rem(r){return Math.max(0,r.order-r.ship)}
 function save(opts={}){
- localStorage.setItem("v42_rows",JSON.stringify(rows));
- localStorage.setItem("v42_hist",JSON.stringify(hist));
- localStorage.setItem("v42_store",sel);
- localStorage.setItem("v42_done",JSON.stringify(showDone));
- localStorage.setItem("v42_auto",JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()}));
+ localStorage.setItem("v43_rows",JSON.stringify(rows));
+ localStorage.setItem("v43_hist",JSON.stringify(hist));
+ localStorage.setItem("v43_store",sel);
+ localStorage.setItem("v43_done",JSON.stringify(showDone));
+ localStorage.setItem("v43_auto",JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()}));
  render();
  if(opts.refreshSearch!==false)refreshSearchPanel();
 }
@@ -486,12 +484,10 @@ function refreshSearchPanel(){
  if(isRefreshingSearch)return;
  isRefreshingSearch=true;
  try{
-  const box=document.getElementById("searchBox");
-  const q=box ? box.value.trim() : "";
   if(searchMode==="item")itemRemainList();
   else if(searchMode==="store")storeRemainList();
-  else if(searchMode==="search" && q)searchItems();
-  else if(q)searchItems();
+  else if(searchMode==="search" && searchBox.value.trim())searchItems();
+  else if(searchBox.value.trim())searchItems();
  }finally{
   isRefreshingSearch=false;
  }
@@ -621,8 +617,8 @@ function shipSearch(){
 function undo(){for(let i=hist.length-1;i>=0;i--){if(hist[i].type=="출고"){hist[i].changes.forEach(c=>{let r=rows.find(x=>x.id==c.id);if(r)r.ship=Math.max(0,r.ship-c.qty)});hist.splice(i,1);save();return}}alert("취소할 출고 없음")}
 function drawLogs(){logBox.innerHTML=hist.slice().reverse().map(l=>`<div class=issue><b>${l.type}</b> <span class=small>${l.time}</span><br>${l.changes?l.changes.map(c=>c.store+" "+c.item+" "+c.qty+c.unit).join(", "):l.text}</div>`).join("")||"<div class='msg info'>로그 없음</div>"}
 function makeReport(){let o=rows.reduce((a,r)=>a+r.order,0),s=rows.reduce((a,r)=>a+r.ship,0),m=rows.reduce((a,r)=>a+rem(r),0);reportBox.innerHTML=`<div class=issue><b>하루 종료 리포트</b><br>주문 ${o} / 출고 ${s} / 미출 ${m}<br>출고율 ${o?Math.round(s/o*100):0}%</div>`}
-function backup(){let data=JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()},null,2),b=new Blob([data],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="주문출고_PRO_v42_백업.json";a.click()}
-function restoreAuto(){let b=localStorage.getItem("v42_auto");if(!b)return alert("자동백업 없음");let d=JSON.parse(b);rows=d.rows||[];hist=d.hist||[];sel=d.sel||"세종";showDone=!!d.showDone;save()}
+function backup(){let data=JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()},null,2),b=new Blob([data],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="주문출고_PRO_v43_백업.json";a.click()}
+function restoreAuto(){let b=localStorage.getItem("v43_auto");if(!b)return alert("자동백업 없음");let d=JSON.parse(b);rows=d.rows||[];hist=d.hist||[];sel=d.sel||"세종";showDone=!!d.showDone;save()}
 function resetAll(){if(confirm("정말 초기화?")&&confirm("진짜 초기화?")){rows=[];hist=[];save()}}
 function cycle(n){let i=STORES.indexOf(sel);sel=STORES[(i+n+STORES.length)%STORES.length];save()}
 function toggleOrder(){orderPanel.classList.toggle("hide")}
@@ -645,15 +641,23 @@ document.addEventListener("click",function(e){
 });
 render();
 </script>
+
+
 <script>
-window.APP_VERSION="v42";
+window.APP_VERSION="v43-nosw";
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
-    navigator.serviceWorker.register("./sw.js?v=42", {updateViaCache:"none"}).then(function(reg){
-      if(reg.update) reg.update();
+    navigator.serviceWorker.getRegistrations().then(function(regs){
+      regs.forEach(function(reg){ reg.unregister(); });
     }).catch(function(){});
+    if (window.caches) {
+      caches.keys().then(function(keys){
+        keys.forEach(function(key){
+          if(key.indexOf("jumunchulgo-pro-") === 0) caches.delete(key);
+        });
+      }).catch(function(){});
+    }
   });
 }
 </script>
-
 </body></html>
