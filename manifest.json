@@ -2,7 +2,7 @@
   "name": "주문출고 PRO",
   "short_name": "주문출고",
   "description": "시장 주문출고 관리 PWA",
-  "start_url": "./index.html?v=51",
+  "start_url": "./index.html?v=52",
   "scope": "./",
   "display": "standalone",
   "background_color": "#080a0d",
