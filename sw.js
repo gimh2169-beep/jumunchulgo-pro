@@ -1,4 +1,4 @@
-// 주문출고 PRO v56
+// 주문출고 PRO v57
 // No Service Worker 안정판.
 self.addEventListener("install", event => { self.skipWaiting(); });
 self.addEventListener("activate", event => {

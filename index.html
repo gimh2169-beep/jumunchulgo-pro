@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>주문출고_PRO_v56</title>
+<title>주문출고_PRO_v57</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#07090c">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -82,12 +82,83 @@ textarea{min-height:140px;line-height:1.5;resize:vertical}
   .mobileNav button{border:0;background:transparent;color:#aab0ba;padding:10px 4px;font-size:12px;font-weight:800}.mobileNav button.on{color:var(--green)}
 }
 </style>
+
+<style>
+/* V57 bottom nav touch fix */
+@media(max-width:700px){
+  body{
+    padding-bottom:calc(122px + env(safe-area-inset-bottom)) !important;
+  }
+  .main{
+    padding-bottom:calc(34px + env(safe-area-inset-bottom)) !important;
+  }
+  .mobileNav{
+    position:fixed !important;
+    left:12px !important;
+    right:12px !important;
+    bottom:calc(10px + env(safe-area-inset-bottom)) !important;
+    z-index:999999 !important;
+    display:grid !important;
+    grid-template-columns:repeat(5,1fr) !important;
+    gap:4px !important;
+    padding:10px !important;
+    min-height:86px !important;
+    border:1px solid rgba(255,255,255,.13) !important;
+    border-radius:26px !important;
+    background:rgba(16,19,24,.94) !important;
+    backdrop-filter:blur(28px) !important;
+    -webkit-backdrop-filter:blur(28px) !important;
+    box-shadow:0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05) !important;
+    pointer-events:auto !important;
+  }
+  .mobileNav button{
+    position:relative !important;
+    z-index:1000000 !important;
+    min-height:64px !important;
+    border:0 !important;
+    border-radius:18px !important;
+    background:transparent !important;
+    color:#aeb5c0 !important;
+    padding:8px 2px !important;
+    font-size:15px !important;
+    line-height:1 !important;
+    font-weight:900 !important;
+    touch-action:manipulation !important;
+    pointer-events:auto !important;
+  }
+  .mobileNav button.on{
+    color:#20d878 !important;
+    background:rgba(32,216,120,.11) !important;
+  }
+  .mobileNav button:active{
+    transform:scale(.96) !important;
+    background:rgba(255,255,255,.08) !important;
+  }
+  .rowItem{
+    min-height:84px !important;
+  }
+  .shipBtn,.doneBtn{
+    height:48px !important;
+    min-height:48px !important;
+    font-size:14px !important;
+  }
+  .storeTabs button{
+    min-height:48px !important;
+    font-size:19px !important;
+  }
+  .search input{
+    height:62px !important;
+    font-size:18px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="app">
   <aside class="side">
     <div class="logo">PRO<br>ORDER</div>
-    <div class="logoSub">주문출고 PRO <b>v56</b></div>
+    <div class="logoSub">주문출고 PRO <b>v57</b></div>
     <nav class="nav">
       <button id="navHome" class="on"><span class="navIcon"></span>홈</button>
       <button id="navOrder"><span class="navIcon"></span>주문</button>
@@ -115,20 +186,20 @@ textarea{min-height:140px;line-height:1.5;resize:vertical}
 <script>
 (function(){
 "use strict";
-const VERSION="v56";
+const VERSION="v57";
 const STORES=["관평","월평","도마","세종","갈마"];
 const alias={"백오이":"오이","쌈배추":"알배기","빨파":"홍파","오이지오이":"오이지","돌미나리":"미나리","수입쫑":"마늘쫑","묵":"스치묵","건궁채":"궁채","팽이버섯":"팽이","느타리":"스치느타리"};
 const $=id=>document.getElementById(id);
-let sel=localStorage.getItem("v56_store")||"관평";
+let sel=localStorage.getItem("v57_store")||"관평";
 let rows=loadRows();
 let hist=loadHist();
 
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function norm(s){return alias[s]||s}
 function rem(r){return Math.max(0,(+r.order||0)-(+r.ship||0))}
-function loadHist(){try{return JSON.parse(localStorage.getItem("v56_hist")||"[]")}catch(e){return[]}}
+function loadHist(){try{return JSON.parse(localStorage.getItem("v57_hist")||"[]")}catch(e){return[]}}
 function loadRows(){
-  const keys=["v56_rows","v55_rows","v54_rows","v53_rows","v52_rows","v51_rows","v50_rows","v49_rows","v48_rows","v47_rows","v46_rows","v45_rows","v44_rows","v43_rows","v42_rows","v41_rows"];
+  const keys=["v57_rows","v55_rows","v54_rows","v53_rows","v52_rows","v51_rows","v50_rows","v49_rows","v48_rows","v47_rows","v46_rows","v45_rows","v44_rows","v43_rows","v42_rows","v41_rows"];
   for(const k of keys){try{const v=localStorage.getItem(k);if(v){const arr=JSON.parse(v);if(Array.isArray(arr))return arr}}catch(e){}}
   return [
     {id:uid(),store:"관평",item:"맛타리",order:12,ship:10,unit:""},
@@ -142,7 +213,7 @@ function loadRows(){
     {id:uid(),store:"관평",item:"오이",order:11,ship:11,unit:""}
   ];
 }
-function save(){localStorage.setItem("v56_rows",JSON.stringify(rows));localStorage.setItem("v56_hist",JSON.stringify(hist.slice(-200)));localStorage.setItem("v56_store",sel);render()}
+function save(){localStorage.setItem("v57_rows",JSON.stringify(rows));localStorage.setItem("v57_hist",JSON.stringify(hist.slice(-200)));localStorage.setItem("v57_store",sel);render()}
 function snap(msg){hist.push({t:new Date().toISOString(),msg,rows:JSON.stringify(rows)})}
 function renderDate(){const d=new Date(),days=["일","월","화","수","목","금","토"];$("todayText").textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")} (${days[d.getDay()]})`;$("liveTime").textContent=d.toLocaleString("ko-KR")}
 function renderStats(){const o=rows.reduce((a,r)=>a+(+r.order||0),0),s=rows.reduce((a,r)=>a+(+r.ship||0),0),m=rows.reduce((a,r)=>a+rem(r),0);$("statRows").textContent=rows.length;$("statOrder").textContent=o;$("statShip").textContent=s;$("statRemain").textContent=m;$("shipRate").textContent=o?Math.round(s/o*1000)/10+"%":"—"}
@@ -158,7 +229,7 @@ function showPanel(name){$("orderPanel").classList.toggle("on",name==="order");$
 function itemRemain(){const map={};rows.forEach(r=>{const v=rem(r);if(v>0)map[r.item]=(map[r.item]||0)+v});$("remainResult").innerHTML=Object.keys(map).length?Object.entries(map).map(([k,v])=>`<div class="msg">${k} ${v}</div>`).join(""):`<div class="msg">미출고 없음</div>`}
 function storeRemain(){$("remainResult").innerHTML=STORES.map(s=>`<div class="msg">${s} ${rows.filter(r=>r.store===s).reduce((a,r)=>a+rem(r),0)}</div>`).join("")}
 function shipSearch(){const arr=currentRows().filter(r=>rem(r)>0);if(!arr.length)return;if(!confirm(`검색 결과 ${arr.length}개 전체출고?`))return;snap("검색결과출고");arr.forEach(r=>r.ship=r.order);save()}
-function backup(){const blob=new Blob([JSON.stringify({version:VERSION,rows,hist},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="주문출고_PRO_v56_백업.json";a.click();URL.revokeObjectURL(a.href)}
+function backup(){const blob=new Blob([JSON.stringify({version:VERSION,rows,hist},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="주문출고_PRO_v57_백업.json";a.click();URL.revokeObjectURL(a.href)}
 function undo(){const last=hist.pop();if(!last){$("settingsResult").innerHTML=`<div class="msg">되돌릴 이력 없음</div>`;return}try{rows=JSON.parse(last.rows);save()}catch(e){}}
 function init(){
   $("searchInput").oninput=renderTable;
@@ -172,5 +243,33 @@ function init(){
 init();
 })();
 </script>
+
+<script>
+(function(){
+  function bindV57Nav(){
+    const pairs = [
+      ["mHome","home"],["mOrder","order"],["mShip","home"],["mRemain","remain"],["mSettings","settings"],
+      ["navHome","home"],["navOrder","order"],["navShip","home"],["navRemain","remain"],["navSettings","settings"]
+    ];
+    pairs.forEach(([id,panel])=>{
+      const el=document.getElementById(id);
+      if(el){
+        el.onclick=function(ev){
+          ev.preventDefault();
+          ev.stopPropagation();
+          if(typeof showPanel==="function"){ showPanel(panel); }
+        };
+      }
+    });
+  }
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded", bindV57Nav);
+  }else{
+    bindV57Nav();
+  }
+  setTimeout(bindV57Nav, 300);
+})();
+</script>
+
 </body>
 </html>
