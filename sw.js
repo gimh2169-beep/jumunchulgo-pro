@@ -1,6 +1,6 @@
-// 주문출고 PRO v43
-// Service Worker 제거용 안전 파일.
-// fetch 이벤트를 등록하지 않아서 Safari redirect 오류를 차단합니다.
+// 주문출고 PRO v44
+// No Service Worker 안정판.
+// fetch 이벤트 없음: Safari redirect 오류 방지.
 
 self.addEventListener("install", event => {
   self.skipWaiting();
