@@ -1,11 +1,11 @@
 {
-  "name": "Order Pro Lite",
-  "short_name": "OrderLite",
-  "start_url": "./index.html?v=0.2",
+  "name": "Order BASIC",
+  "short_name": "BASIC",
+  "start_url": "./index.html?v=basic1",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#080a0d",
-  "theme_color": "#080a0d",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "orientation": "portrait",
   "icons": [
     {

@@ -1,1 +1,1 @@
-// no service worker fetch
+// no service worker

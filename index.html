@@ -1,74 +1,44 @@
-<!doctype html>
-<html lang="ko"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Order Pro Lite v0.2</title>
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#080a0d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Order Lite">
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Order BASIC v1</title><link rel="manifest" href="./manifest.json">
 <style>
-:root{--bg:#080a0d;--panel:#11151a;--line:rgba(255,255,255,.1);--text:#f6f7f9;--muted:#9aa1ac;--green:#20d878;--amber:#ffb11b;--red:#ff5967}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;min-height:100vh;padding:18px 14px calc(104px + env(safe-area-inset-bottom));background:linear-gradient(180deg,#080a0d,#0a0e12 55%,#080a0d);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif}
-button,input,select{font-family:inherit}button{touch-action:manipulation;cursor:pointer}button:active{transform:scale(.98)}
-.brand{font-size:12px;letter-spacing:4px;font-weight:950;margin-bottom:8px}h1{margin:0;font-size:28px;font-weight:950}.sub{margin-top:8px;color:var(--muted);font-size:13px;font-weight:700}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(17,21,26,.75);margin:12px 0}.stat{padding:15px 10px;min-height:88px}.stat:not(:last-child){border-right:1px solid var(--line)}.stat span{display:block;color:#c6ccd5;font-size:12px;font-weight:800}.stat b{display:block;margin-top:20px;font-size:32px;line-height:.9;font-weight:950}.stat:last-child b{color:var(--green)}
-.stores{display:flex;gap:18px;overflow:auto;border-bottom:1px solid var(--line);padding:4px 0 0;margin-bottom:14px}.stores button{border:0;background:transparent;color:#aab1bb;font-size:18px;font-weight:900;padding:12px 0 14px;min-width:48px}.stores button.on{color:#fff;border-bottom:2px solid var(--green)}
-.search input{width:100%;height:54px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.055);color:#fff;padding:0 16px;font-size:17px;outline:none}.search{margin-bottom:12px}
-.screen{display:none}.screen.on{display:block}.head,.row{display:grid;grid-template-columns:minmax(0,1fr) 54px 54px 76px;gap:7px;align-items:center}.head{color:#9fa7b3;font-size:13px;font-weight:850;padding-bottom:12px;border-bottom:1px solid var(--line)}.row{min-height:76px;border-bottom:1px solid var(--line)}
-.item{font-size:22px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.num{font-size:20px;font-weight:900}.rem{font-size:20px;font-weight:950;color:var(--amber)}.rem.zero{color:var(--green)}
-.ship{height:46px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.06);color:#fff;font-size:14px;font-weight:950}.ship:before{content:'● ';color:var(--green)}.done{height:46px;border:0;background:transparent;color:#b6bdc7;font-size:14px;font-weight:900}
-.card{border:1px solid var(--line);border-radius:18px;background:rgba(17,21,26,.75);padding:16px;margin-top:12px}.card h2{margin:0 0 14px;font-size:22px;font-weight:950}
-input,select{width:100%;height:52px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.055);color:#fff;padding:0 14px;font-size:16px;outline:none;margin-bottom:8px}
-.btnRow{display:flex;gap:8px;margin-top:10px}.btnRow button{flex:1;height:52px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.06);color:#fff;font-weight:950;font-size:15px}.btnRow .primary{background:rgba(32,216,120,.16);border-color:rgba(32,216,120,.3);color:#dfffea}.btnRow .danger{background:rgba(255,89,103,.09);border-color:rgba(255,89,103,.26);color:#ffd0d5}
-.msg{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04);margin-top:10px;color:#d4dae3;font-weight:700}
-.bottom{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:99999;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px;min-height:84px;border:1px solid rgba(255,255,255,.14);border-radius:25px;background:rgba(16,19,24,.97);box-shadow:0 20px 70px rgba(0,0,0,.48)}
-.bottom button{border:0;background:transparent;color:#aeb5c0;min-height:62px;border-radius:18px;font-size:16px;font-weight:950}.bottom button.on{color:var(--green);background:rgba(32,216,120,.12)}
+*{box-sizing:border-box}body{margin:0;padding:12px 12px 90px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",Arial,sans-serif;background:#fff;color:#111}h1{font-size:24px;margin:8px 0}.card{border:1px solid #ddd;border-radius:10px;padding:12px;margin:10px 0}.row{display:flex;gap:8px;margin:8px 0}input,select,button,textarea{font-size:16px;border:1px solid #bbb;border-radius:8px;padding:12px;background:#fff}input,select,textarea{width:100%}button{font-weight:700;touch-action:manipulation}button.primary{background:#111;color:#fff;border-color:#111}button.green{background:#0a7f3f;color:#fff;border-color:#0a7f3f}button.red{background:#c62828;color:#fff;border-color:#c62828}button.orange{background:#f59e0b;color:#111;border-color:#f59e0b}.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}.tabs button{padding:10px 2px;font-size:14px}.tabs button.on{background:#111;color:#fff}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.stat{border:1px solid #ddd;border-radius:8px;padding:10px;text-align:center}.stat b{display:block;font-size:24px;margin-top:6px}.list{border-top:1px solid #ddd;margin-top:8px}.item{display:grid;grid-template-columns:1fr 45px 45px 104px;gap:6px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}.name{font-size:18px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.small{font-size:12px;color:#666}.num{text-align:center;font-weight:800}.actions{display:flex;gap:4px;flex-wrap:wrap}.actions button{font-size:12px;padding:8px 5px}.bottom{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:1000}.bottom button{font-size:15px;padding:12px 4px}.screen{display:none}.screen.on{display:block}.msg{background:#f5f5f5;border:1px solid #ddd;border-radius:8px;padding:10px;margin:8px 0}
 </style></head><body>
-<div class="brand">PRO ORDER</div><h1>Order Lite</h1><div class="sub" id="today">LIVE</div>
-<section class="stats"><div class="stat"><span>주문</span><b id="stOrder">0</b></div><div class="stat"><span>출고</span><b id="stShip">0</b></div><div class="stat"><span>미출</span><b id="stRemain">0</b></div></section>
-<div class="stores" id="stores"></div>
-<div class="search"><input id="q" placeholder="품목 검색..." oninput="render()"></div>
-<section id="home" class="screen on"><div class="head"><span>품목</span><span>주문</span><span>잔량</span><span></span></div><div id="list"></div></section>
-<section id="order" class="screen"><div class="card"><h2>주문 추가</h2><select id="orderStore"><option>관평</option><option>월평</option><option>도마</option><option>세종</option><option>갈마</option></select><input id="itemInput" placeholder="품목명"><input id="qtyInput" type="number" inputmode="numeric" placeholder="수량"><div class="btnRow"><button class="primary" onclick="addOrder()">추가</button><button onclick="sample()">샘플</button><button class="danger" onclick="resetAll()">초기화</button></div><div id="orderMsg"></div></div></section>
-<section id="remain" class="screen"><div class="card"><h2>미출고</h2><div class="btnRow"><button onclick="remainByItem()">품목별</button><button onclick="remainByStore()">점포별</button></div><div id="remainBox"></div></div></section>
-<nav class="bottom"><button id="bHome" onclick="go('home')">홈</button><button id="bOrder" onclick="go('order')">주문</button><button id="bRemain" onclick="go('remain')">미출</button></nav>
+<h1>주문출고 BASIC</h1>
+<div class="stats"><div class="stat">주문<b id="totalOrder">0</b></div><div class="stat">출고<b id="totalShip">0</b></div><div class="stat">미출<b id="totalRemain">0</b></div></div>
+<div class="tabs" id="storeTabs"></div>
+<div class="card"><input id="search" placeholder="품목 검색" oninput="render()"></div>
+<section id="home" class="screen on"><div class="card"><b id="currentStore">관평</b><div class="list" id="orderList"></div></div></section>
+<section id="add" class="screen"><div class="card"><h2>주문 추가</h2><select id="addStore"><option>관평</option><option>월평</option><option>도마</option><option>세종</option><option>갈마</option></select><div class="row"><input id="itemName" placeholder="품목명"><input id="itemQty" type="number" inputmode="decimal" placeholder="수량"></div><button class="primary" style="width:100%" onclick="addOrder()">추가</button><div id="addMsg"></div></div><div class="card"><h2>여러 줄 추가</h2><select id="bulkStore"><option>관평</option><option>월평</option><option>도마</option><option>세종</option><option>갈마</option></select><textarea id="bulkText" style="height:140px" placeholder="예:\n청상추 10\n맛타리 5"></textarea><button class="primary" style="width:100%;margin-top:8px" onclick="bulkAdd()">여러 줄 추가</button><div id="bulkMsg"></div></div></section>
+<section id="remain" class="screen"><div class="card"><h2>미출 조회</h2><div class="row"><button onclick="remainByStore()">점포별</button><button onclick="remainByItem()">품목별</button></div><div id="remainBox"></div></div></section>
+<section id="setting" class="screen"><div class="card"><h2>설정</h2><button class="red" style="width:100%" onclick="resetAll()">전체 초기화</button><button style="width:100%;margin-top:8px" onclick="backup()">백업 다운로드</button><div id="setMsg"></div></div></section>
+<nav class="bottom"><button id="navHome" onclick="go('home')">홈</button><button id="navAdd" onclick="go('add')">추가</button><button id="navRemain" onclick="go('remain')">미출</button><button id="navSetting" onclick="go('setting')">설정</button></nav>
 <script>
-const STORES=['관평','월평','도마','세종','갈마'];
-const alias={'백오이':'오이','쌈배추':'알배기','빨파':'홍파','오이지오이':'오이지','돌미나리':'미나리','수입쫑':'마늘쫑','묵':'스치묵','팽이버섯':'팽이','느타리':'스치느타리'};
-let sel=localStorage.getItem('opl_store')||'관평';
-let rows=loadRows();
+const STORES=["관평","월평","도마","세종","갈마"];
+const alias={"백오이":"오이","쌈배추":"알배기","빨파":"홍파","오이지오이":"오이지","돌미나리":"미나리","수입쫑":"마늘쫑","수입마늘쫑":"마늘쫑","묵":"스치묵","팽이버섯":"팽이","느타리":"스치느타리"};
+let currentStore=localStorage.getItem("basic_store")||"관평";
+let orders=load();
 function $(id){return document.getElementById(id)}
-function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
-function norm(x){return alias[x]||x}
-function rem(r){return Math.max(0,Number(r.order||0)-Number(r.ship||0))}
-function loadRows(){try{const v=localStorage.getItem('opl_rows');if(v)return JSON.parse(v)}catch(e){}return[{id:uid(),store:'관평',item:'맛타리',order:12,ship:0},{id:uid(),store:'관평',item:'청상추',order:15,ship:0},{id:uid(),store:'관평',item:'양송이',order:9,ship:9}]}
-function save(){localStorage.setItem('opl_rows',JSON.stringify(rows));localStorage.setItem('opl_store',sel);render()}
-function renderDate(){const d=new Date(),day=['일','월','화','수','목','금','토'][d.getDay()];$('today').textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} (${day}) · LIVE`}
-function renderStores(){$('stores').innerHTML=STORES.map(s=>`<button onclick="setStore('${s}')" class="${s===sel?'on':''}">${s}</button>`).join('')}
-function filtered(){const q=$('q').value.trim();return rows.filter(r=>r.store===sel&&(!q||r.item.includes(q)))}
-function renderStats(){let o=0,s=0,m=0;rows.forEach(r=>{o+=Number(r.order||0);s+=Number(r.ship||0);m+=rem(r)});$('stOrder').textContent=o;$('stShip').textContent=s;$('stRemain').textContent=m}
-function renderList(){const arr=filtered();$('list').innerHTML=arr.length?arr.map(r=>{const left=rem(r);return `<div class="row"><div class="item">${r.item}</div><div class="num">${r.order}</div><div class="rem ${left?'':'zero'}">${left}</div>${left?`<button class="ship" onclick="ship('${r.id}')">출고</button>`:`<button class="done" disabled>완료</button>`}</div>`}).join(''):`<div class="msg">표시할 품목 없음</div>`}
-function render(){renderDate();renderStores();renderStats();renderList()}
-function setStore(s){sel=s;save()}
-function go(id){['home','order','remain'].forEach(x=>$(x).classList.remove('on'));$(id).classList.add('on');['Home','Order','Remain'].forEach(x=>$('b'+x).classList.remove('on'));const map={home:'Home',order:'Order',remain:'Remain'};$('b'+map[id]).classList.add('on');if(id==='remain')remainByItem()}
-function ship(id){
-  const r=rows.find(x=>x.id===id);
-  if(!r)return;
-  const left=rem(r);
-  if(left<=0)return;
-  const raw=prompt(r.item+" 부분출고 수량 입력\n남은 수량: "+left, left);
-  if(raw===null)return;
-  const qty=Number(raw);
-  if(!qty || qty<=0)return;
-  r.ship+=Math.min(qty,left);
-  save();
-}
-function addOrder(){const store=$('orderStore').value,item=norm($('itemInput').value.trim()),qty=Number($('qtyInput').value);if(!item||!qty){$('orderMsg').innerHTML='<div class="msg">품목명과 수량을 입력</div>';return}const old=rows.find(r=>r.store===store&&r.item===item);if(old)old.order+=qty;else rows.push({id:uid(),store,item,order:qty,ship:0});$('itemInput').value='';$('qtyInput').value='';$('orderMsg').innerHTML=`<div class="msg">${item} ${qty} 추가 완료</div>`;save()}
-function sample(){const store=$('orderStore').value;[['맛타리',12],['청상추',15],['양송이',9]].forEach(([item,qty])=>{const old=rows.find(r=>r.store===store&&r.item===item);if(old)old.order+=qty;else rows.push({id:uid(),store,item,order:qty,ship:0})});$('orderMsg').innerHTML='<div class="msg">샘플 추가 완료</div>';save()}
-function resetAll(){if(confirm('전체 초기화?')){rows=[];save()}}
-function remainByItem(){const m={};rows.forEach(r=>{const v=rem(r);if(v)m[r.item]=(m[r.item]||0)+v});$('remainBox').innerHTML=Object.keys(m).length?Object.entries(m).map(([k,v])=>`<div class="msg">${k} ${v}</div>`).join(''):'<div class="msg">미출고 없음</div>'}
-function remainByStore(){$('remainBox').innerHTML=STORES.map(s=>`<div class="msg">${s} ${rows.filter(r=>r.store===s).reduce((a,r)=>a+rem(r),0)}</div>`).join('')}
-setInterval(renderDate,1000);render();go('home');
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function norm(name){name=(name||"").trim();return alias[name]||name}
+function remain(o){return Math.max(0,Number(o.qty)-Number(o.ship))}
+function load(){try{const v=localStorage.getItem("basic_orders");if(v)return JSON.parse(v)}catch(e){}return[]}
+function save(){localStorage.setItem("basic_orders",JSON.stringify(orders));localStorage.setItem("basic_store",currentStore);render()}
+function render(){renderTabs();renderStats();renderList()}
+function renderTabs(){$("storeTabs").innerHTML=STORES.map(s=>'<button class="'+(s===currentStore?'on':'')+'" onclick="setStore(\''+s+'\')">'+s+'</button>').join("");$("currentStore").textContent=currentStore}
+function renderStats(){let tq=0,ts=0,tr=0;orders.forEach(o=>{tq+=Number(o.qty);ts+=Number(o.ship);tr+=remain(o)});$("totalOrder").textContent=tq;$("totalShip").textContent=ts;$("totalRemain").textContent=tr}
+function renderList(){const q=$("search").value.trim();const arr=orders.filter(o=>o.store===currentStore&&(!q||o.item.includes(q)));if(!arr.length){$("orderList").innerHTML='<div class="msg">주문 없음</div>';return}$("orderList").innerHTML=arr.map(o=>{const r=remain(o);return '<div class="item"><div><div class="name">'+o.item+'</div><div class="small">출고 '+o.ship+' / 주문 '+o.qty+'</div></div><div class="num">'+o.qty+'</div><div class="num">'+r+'</div><div class="actions">'+(r>0?'<button class="green" onclick="shipAll(\''+o.id+'\')">전체</button><button class="orange" onclick="shipPart(\''+o.id+'\')">부분</button>':'<button disabled>완료</button>')+'<button class="red" onclick="delOrder(\''+o.id+'\')">삭제</button></div></div>'}).join("")}
+function setStore(s){currentStore=s;save()}
+function go(id){["home","add","remain","setting"].forEach(x=>$(x).classList.remove("on"));$(id).classList.add("on");["Home","Add","Remain","Setting"].forEach(x=>$("nav"+x).classList.remove("primary"));const m={home:"Home",add:"Add",remain:"Remain",setting:"Setting"};$("nav"+m[id]).classList.add("primary");if(id==="remain")remainByStore()}
+function addOrder(){const store=$("addStore").value,item=norm($("itemName").value),qty=Number($("itemQty").value);if(!item||!qty){$("addMsg").innerHTML='<div class="msg">품목명/수량 입력</div>';return}const old=orders.find(o=>o.store===store&&o.item===item);if(old)old.qty+=qty;else orders.push({id:uid(),store,item,qty,ship:0});$("itemName").value="";$("itemQty").value="";$("addMsg").innerHTML='<div class="msg">추가 완료</div>';save()}
+function parseLine(line,store){line=line.trim();if(!line)return null;const m=line.match(/^(.+?)\s+(\d+(?:\.\d+)?)/);if(!m)return null;return{store,item:norm(m[1]),qty:Number(m[2])}}
+function bulkAdd(){const store=$("bulkStore").value;const arr=$("bulkText").value.split(/\n+/).map(l=>parseLine(l,store)).filter(Boolean);if(!arr.length){$("bulkMsg").innerHTML='<div class="msg">추가할 내용 없음</div>';return}arr.forEach(p=>{const old=orders.find(o=>o.store===p.store&&o.item===p.item);if(old)old.qty+=p.qty;else orders.push({id:uid(),store:p.store,item:p.item,qty:p.qty,ship:0})});$("bulkText").value="";$("bulkMsg").innerHTML='<div class="msg">'+arr.length+'개 추가 완료</div>';save()}
+function shipAll(id){const o=orders.find(x=>x.id===id);if(!o)return;o.ship=o.qty;save()}
+function shipPart(id){const o=orders.find(x=>x.id===id);if(!o)return;const r=remain(o);const raw=prompt(o.item+" 부분출고 수량 입력\n남은 수량: "+r,r);if(raw===null)return;const q=Number(raw);if(!q||q<=0)return;o.ship+=Math.min(q,r);save()}
+function delOrder(id){if(!confirm("삭제?"))return;orders=orders.filter(o=>o.id!==id);save()}
+function remainByStore(){$("remainBox").innerHTML=STORES.map(s=>'<div class="msg">'+s+' '+orders.filter(o=>o.store===s).reduce((a,o)=>a+remain(o),0)+'</div>').join("")}
+function remainByItem(){const map={};orders.forEach(o=>{const r=remain(o);if(r>0)map[o.item]=(map[o.item]||0)+r});$("remainBox").innerHTML=Object.keys(map).length?Object.entries(map).map(([k,v])=>'<div class="msg">'+k+' '+v+'</div>').join(""):'<div class="msg">미출 없음</div>'}
+function resetAll(){if(!confirm("전체 초기화?"))return;orders=[];save()}
+function backup(){const blob=new Blob([JSON.stringify(orders,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="order_basic_backup.json";a.click();URL.revokeObjectURL(a.href)}
+render();go("home");
 </script></body></html>
