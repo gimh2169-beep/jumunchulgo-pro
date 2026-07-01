@@ -1,44 +1,282 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Order BASIC v1</title><link rel="manifest" href="./manifest.json">
+<title>Order BASIC v2</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#ffffff">
 <style>
-*{box-sizing:border-box}body{margin:0;padding:12px 12px 90px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",Arial,sans-serif;background:#fff;color:#111}h1{font-size:24px;margin:8px 0}.card{border:1px solid #ddd;border-radius:10px;padding:12px;margin:10px 0}.row{display:flex;gap:8px;margin:8px 0}input,select,button,textarea{font-size:16px;border:1px solid #bbb;border-radius:8px;padding:12px;background:#fff}input,select,textarea{width:100%}button{font-weight:700;touch-action:manipulation}button.primary{background:#111;color:#fff;border-color:#111}button.green{background:#0a7f3f;color:#fff;border-color:#0a7f3f}button.red{background:#c62828;color:#fff;border-color:#c62828}button.orange{background:#f59e0b;color:#111;border-color:#f59e0b}.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}.tabs button{padding:10px 2px;font-size:14px}.tabs button.on{background:#111;color:#fff}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.stat{border:1px solid #ddd;border-radius:8px;padding:10px;text-align:center}.stat b{display:block;font-size:24px;margin-top:6px}.list{border-top:1px solid #ddd;margin-top:8px}.item{display:grid;grid-template-columns:1fr 45px 45px 104px;gap:6px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}.name{font-size:18px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.small{font-size:12px;color:#666}.num{text-align:center;font-weight:800}.actions{display:flex;gap:4px;flex-wrap:wrap}.actions button{font-size:12px;padding:8px 5px}.bottom{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:1000}.bottom button{font-size:15px;padding:12px 4px}.screen{display:none}.screen.on{display:block}.msg{background:#f5f5f5;border:1px solid #ddd;border-radius:8px;padding:10px;margin:8px 0}
-</style></head><body>
-<h1>주문출고 BASIC</h1>
-<div class="stats"><div class="stat">주문<b id="totalOrder">0</b></div><div class="stat">출고<b id="totalShip">0</b></div><div class="stat">미출<b id="totalRemain">0</b></div></div>
+*{box-sizing:border-box}
+body{margin:0;padding:12px 12px 92px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",Arial,sans-serif;background:#fff;color:#111}
+h1{font-size:24px;margin:8px 0 12px}
+h2{font-size:22px;margin:0 0 12px}
+.card{border:1px solid #ddd;border-radius:10px;padding:12px;margin:10px 0;background:#fff}
+.row{display:flex;gap:8px;margin:8px 0}
+input,select,button,textarea{font-size:16px;border:1px solid #bbb;border-radius:8px;padding:12px;background:#fff}
+input,select,textarea{width:100%}
+textarea{height:220px;line-height:1.45}
+button{font-weight:800;touch-action:manipulation}
+button:active{transform:scale(.98)}
+button.primary{background:#111;color:#fff;border-color:#111}
+button.green{background:#0a7f3f;color:#fff;border-color:#0a7f3f}
+button.red{background:#c62828;color:#fff;border-color:#c62828}
+button.orange{background:#f59e0b;color:#111;border-color:#f59e0b}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}
+.tabs button{padding:10px 2px;font-size:14px}
+.tabs button.on{background:#111;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.stat{border:1px solid #ddd;border-radius:8px;padding:10px;text-align:center}
+.stat b{display:block;font-size:24px;margin-top:6px}
+.list{border-top:1px solid #ddd;margin-top:8px}
+.item{display:grid;grid-template-columns:1fr 48px 48px 74px;gap:6px;align-items:center;border-bottom:1px solid #eee;padding:12px 0}
+.name{font-size:19px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.small{font-size:12px;color:#666;margin-top:3px}
+.num{text-align:center;font-weight:900;font-size:18px}
+.shipbtn{font-size:14px;padding:11px 4px}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:1000}
+.bottom button{font-size:15px;padding:12px 4px}
+.screen{display:none}
+.screen.on{display:block}
+.msg{background:#f5f5f5;border:1px solid #ddd;border-radius:8px;padding:10px;margin:8px 0}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;z-index:2000}
+.overlay.on{display:flex}
+.sheet{background:#fff;width:100%;border-radius:18px 18px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.25)}
+.sheetTitle{font-size:22px;font-weight:900;margin-bottom:8px}
+.sheetInfo{font-size:15px;color:#555;line-height:1.6;margin-bottom:14px}
+.stepper{display:grid;grid-template-columns:70px 1fr 70px;gap:10px;align-items:center;margin:12px 0}
+.stepper button{height:64px;font-size:30px;border-radius:12px}
+.stepNum{text-align:center;font-size:42px;font-weight:900}
+.sheetBtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.sheetBtns button{height:54px}
+</style>
+</head>
+<body>
+<h1>주문출고 BASIC v2</h1>
+
+<div class="stats">
+  <div class="stat">주문<b id="totalOrder">0</b></div>
+  <div class="stat">출고<b id="totalShip">0</b></div>
+  <div class="stat">미출<b id="totalRemain">0</b></div>
+</div>
+
 <div class="tabs" id="storeTabs"></div>
-<div class="card"><input id="search" placeholder="품목 검색" oninput="render()"></div>
-<section id="home" class="screen on"><div class="card"><b id="currentStore">관평</b><div class="list" id="orderList"></div></div></section>
-<section id="add" class="screen"><div class="card"><h2>주문 추가</h2><select id="addStore"><option>관평</option><option>월평</option><option>도마</option><option>세종</option><option>갈마</option></select><div class="row"><input id="itemName" placeholder="품목명"><input id="itemQty" type="number" inputmode="decimal" placeholder="수량"></div><button class="primary" style="width:100%" onclick="addOrder()">추가</button><div id="addMsg"></div></div><div class="card"><h2>여러 줄 추가</h2><select id="bulkStore"><option>관평</option><option>월평</option><option>도마</option><option>세종</option><option>갈마</option></select><textarea id="bulkText" style="height:140px" placeholder="예:\n청상추 10\n맛타리 5"></textarea><button class="primary" style="width:100%;margin-top:8px" onclick="bulkAdd()">여러 줄 추가</button><div id="bulkMsg"></div></div></section>
-<section id="remain" class="screen"><div class="card"><h2>미출 조회</h2><div class="row"><button onclick="remainByStore()">점포별</button><button onclick="remainByItem()">품목별</button></div><div id="remainBox"></div></div></section>
-<section id="setting" class="screen"><div class="card"><h2>설정</h2><button class="red" style="width:100%" onclick="resetAll()">전체 초기화</button><button style="width:100%;margin-top:8px" onclick="backup()">백업 다운로드</button><div id="setMsg"></div></div></section>
-<nav class="bottom"><button id="navHome" onclick="go('home')">홈</button><button id="navAdd" onclick="go('add')">추가</button><button id="navRemain" onclick="go('remain')">미출</button><button id="navSetting" onclick="go('setting')">설정</button></nav>
+
+<div class="card">
+  <input id="search" placeholder="품목 검색" oninput="render()">
+</div>
+
+<section id="home" class="screen on">
+  <div class="card">
+    <b id="currentStore">관평</b>
+    <div class="list" id="orderList"></div>
+  </div>
+</section>
+
+<section id="add" class="screen">
+  <div class="card">
+    <h2>주문 입력</h2>
+    <select id="bulkStore">
+      <option>관평</option><option>월평</option><option>도마</option><option>세종</option><option>갈마</option>
+    </select>
+    <textarea id="bulkText" placeholder="예:&#10;청상추 10&#10;맛타리 5&#10;오이 3"></textarea>
+    <button class="primary" style="width:100%;margin-top:8px" onclick="bulkAdd()">저장</button>
+    <div id="bulkMsg"></div>
+  </div>
+</section>
+
+<section id="remain" class="screen">
+  <div class="card">
+    <h2>미출 조회</h2>
+    <div class="row">
+      <button onclick="remainByStore()">점포별</button>
+      <button onclick="remainByItem()">품목별</button>
+    </div>
+    <div id="remainBox"></div>
+  </div>
+</section>
+
+<section id="setting" class="screen">
+  <div class="card">
+    <h2>설정</h2>
+    <button class="red" style="width:100%" onclick="resetAll()">전체 초기화</button>
+    <button style="width:100%;margin-top:8px" onclick="backup()">백업 다운로드</button>
+    <div id="setMsg"></div>
+  </div>
+</section>
+
+<nav class="bottom">
+  <button id="navHome" onclick="go('home')">홈</button>
+  <button id="navAdd" onclick="go('add')">주문</button>
+  <button id="navRemain" onclick="go('remain')">미출</button>
+  <button id="navSetting" onclick="go('setting')">설정</button>
+</nav>
+
+<div id="shipOverlay" class="overlay">
+  <div class="sheet">
+    <div class="sheetTitle" id="shipTitle">출고</div>
+    <div class="sheetInfo" id="shipInfo"></div>
+    <div class="stepper">
+      <button onclick="changeShipQty(-1)">−</button>
+      <div class="stepNum" id="shipQty">1</div>
+      <button onclick="changeShipQty(1)">＋</button>
+    </div>
+    <div class="sheetBtns">
+      <button class="green" onclick="shipAllFromSheet()">전체</button>
+      <button class="primary" onclick="confirmShip()">확정</button>
+      <button onclick="closeShipSheet()">취소</button>
+      <button class="orange" onclick="changeShipQty(5)">+5</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const STORES=["관평","월평","도마","세종","갈마"];
 const alias={"백오이":"오이","쌈배추":"알배기","빨파":"홍파","오이지오이":"오이지","돌미나리":"미나리","수입쫑":"마늘쫑","수입마늘쫑":"마늘쫑","묵":"스치묵","팽이버섯":"팽이","느타리":"스치느타리"};
 let currentStore=localStorage.getItem("basic_store")||"관평";
 let orders=load();
+let activeShipId=null;
+let activeShipQty=1;
+
 function $(id){return document.getElementById(id)}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function norm(name){name=(name||"").trim();return alias[name]||name}
 function remain(o){return Math.max(0,Number(o.qty)-Number(o.ship))}
-function load(){try{const v=localStorage.getItem("basic_orders");if(v)return JSON.parse(v)}catch(e){}return[]}
-function save(){localStorage.setItem("basic_orders",JSON.stringify(orders));localStorage.setItem("basic_store",currentStore);render()}
-function render(){renderTabs();renderStats();renderList()}
-function renderTabs(){$("storeTabs").innerHTML=STORES.map(s=>'<button class="'+(s===currentStore?'on':'')+'" onclick="setStore(\''+s+'\')">'+s+'</button>').join("");$("currentStore").textContent=currentStore}
-function renderStats(){let tq=0,ts=0,tr=0;orders.forEach(o=>{tq+=Number(o.qty);ts+=Number(o.ship);tr+=remain(o)});$("totalOrder").textContent=tq;$("totalShip").textContent=ts;$("totalRemain").textContent=tr}
-function renderList(){const q=$("search").value.trim();const arr=orders.filter(o=>o.store===currentStore&&(!q||o.item.includes(q)));if(!arr.length){$("orderList").innerHTML='<div class="msg">주문 없음</div>';return}$("orderList").innerHTML=arr.map(o=>{const r=remain(o);return '<div class="item"><div><div class="name">'+o.item+'</div><div class="small">출고 '+o.ship+' / 주문 '+o.qty+'</div></div><div class="num">'+o.qty+'</div><div class="num">'+r+'</div><div class="actions">'+(r>0?'<button class="green" onclick="shipAll(\''+o.id+'\')">전체</button><button class="orange" onclick="shipPart(\''+o.id+'\')">부분</button>':'<button disabled>완료</button>')+'<button class="red" onclick="delOrder(\''+o.id+'\')">삭제</button></div></div>'}).join("")}
+function load(){
+  try{
+    const v=localStorage.getItem("basic_orders");
+    if(v)return JSON.parse(v);
+  }catch(e){}
+  return [];
+}
+function save(){
+  localStorage.setItem("basic_orders",JSON.stringify(orders));
+  localStorage.setItem("basic_store",currentStore);
+  render();
+}
+function render(){
+  renderTabs();
+  renderStats();
+  renderList();
+}
+function renderTabs(){
+  $("storeTabs").innerHTML=STORES.map(s=>'<button class="'+(s===currentStore?'on':'')+'" onclick="setStore(\\''+s+'\\')">'+s+'</button>').join("");
+  $("currentStore").textContent=currentStore;
+}
+function renderStats(){
+  let tq=0,ts=0,tr=0;
+  orders.forEach(o=>{tq+=Number(o.qty);ts+=Number(o.ship);tr+=remain(o)});
+  $("totalOrder").textContent=tq;
+  $("totalShip").textContent=ts;
+  $("totalRemain").textContent=tr;
+}
+function renderList(){
+  const q=$("search").value.trim();
+  const arr=orders.filter(o=>o.store===currentStore && (!q || o.item.includes(q)));
+  if(!arr.length){
+    $("orderList").innerHTML='<div class="msg">주문 없음</div>';
+    return;
+  }
+  $("orderList").innerHTML=arr.map(o=>{
+    const r=remain(o);
+    return '<div class="item">'+
+      '<div><div class="name">'+o.item+'</div><div class="small">출고 '+o.ship+' / 주문 '+o.qty+'</div></div>'+
+      '<div class="num">'+o.qty+'</div>'+
+      '<div class="num">'+r+'</div>'+
+      '<div>'+(r>0?'<button class="green shipbtn" onclick="openShipSheet(\\''+o.id+'\\')">출고</button>':'<button class="shipbtn" disabled>완료</button>')+'</div>'+
+    '</div>';
+  }).join("");
+}
 function setStore(s){currentStore=s;save()}
-function go(id){["home","add","remain","setting"].forEach(x=>$(x).classList.remove("on"));$(id).classList.add("on");["Home","Add","Remain","Setting"].forEach(x=>$("nav"+x).classList.remove("primary"));const m={home:"Home",add:"Add",remain:"Remain",setting:"Setting"};$("nav"+m[id]).classList.add("primary");if(id==="remain")remainByStore()}
-function addOrder(){const store=$("addStore").value,item=norm($("itemName").value),qty=Number($("itemQty").value);if(!item||!qty){$("addMsg").innerHTML='<div class="msg">품목명/수량 입력</div>';return}const old=orders.find(o=>o.store===store&&o.item===item);if(old)old.qty+=qty;else orders.push({id:uid(),store,item,qty,ship:0});$("itemName").value="";$("itemQty").value="";$("addMsg").innerHTML='<div class="msg">추가 완료</div>';save()}
-function parseLine(line,store){line=line.trim();if(!line)return null;const m=line.match(/^(.+?)\s+(\d+(?:\.\d+)?)/);if(!m)return null;return{store,item:norm(m[1]),qty:Number(m[2])}}
-function bulkAdd(){const store=$("bulkStore").value;const arr=$("bulkText").value.split(/\n+/).map(l=>parseLine(l,store)).filter(Boolean);if(!arr.length){$("bulkMsg").innerHTML='<div class="msg">추가할 내용 없음</div>';return}arr.forEach(p=>{const old=orders.find(o=>o.store===p.store&&o.item===p.item);if(old)old.qty+=p.qty;else orders.push({id:uid(),store:p.store,item:p.item,qty:p.qty,ship:0})});$("bulkText").value="";$("bulkMsg").innerHTML='<div class="msg">'+arr.length+'개 추가 완료</div>';save()}
-function shipAll(id){const o=orders.find(x=>x.id===id);if(!o)return;o.ship=o.qty;save()}
-function shipPart(id){const o=orders.find(x=>x.id===id);if(!o)return;const r=remain(o);const raw=prompt(o.item+" 부분출고 수량 입력\n남은 수량: "+r,r);if(raw===null)return;const q=Number(raw);if(!q||q<=0)return;o.ship+=Math.min(q,r);save()}
-function delOrder(id){if(!confirm("삭제?"))return;orders=orders.filter(o=>o.id!==id);save()}
-function remainByStore(){$("remainBox").innerHTML=STORES.map(s=>'<div class="msg">'+s+' '+orders.filter(o=>o.store===s).reduce((a,o)=>a+remain(o),0)+'</div>').join("")}
-function remainByItem(){const map={};orders.forEach(o=>{const r=remain(o);if(r>0)map[o.item]=(map[o.item]||0)+r});$("remainBox").innerHTML=Object.keys(map).length?Object.entries(map).map(([k,v])=>'<div class="msg">'+k+' '+v+'</div>').join(""):'<div class="msg">미출 없음</div>'}
-function resetAll(){if(!confirm("전체 초기화?"))return;orders=[];save()}
-function backup(){const blob=new Blob([JSON.stringify(orders,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="order_basic_backup.json";a.click();URL.revokeObjectURL(a.href)}
-render();go("home");
-</script></body></html>
+function go(id){
+  ["home","add","remain","setting"].forEach(x=>$(x).classList.remove("on"));
+  $(id).classList.add("on");
+  ["Home","Add","Remain","Setting"].forEach(x=>$("nav"+x).classList.remove("primary"));
+  const m={home:"Home",add:"Add",remain:"Remain",setting:"Setting"};
+  $("nav"+m[id]).classList.add("primary");
+  if(id==="remain")remainByStore();
+}
+function parseLine(line,store){
+  line=line.trim();
+  if(!line)return null;
+  const m=line.match(/^(.+?)\s+(\d+(?:\.\d+)?)/);
+  if(!m)return null;
+  return {store,item:norm(m[1]),qty:Number(m[2])};
+}
+function bulkAdd(){
+  const store=$("bulkStore").value;
+  const arr=$("bulkText").value.split(/\n+/).map(l=>parseLine(l,store)).filter(Boolean);
+  if(!arr.length){$("bulkMsg").innerHTML='<div class="msg">추가할 내용 없음</div>';return}
+  arr.forEach(p=>{
+    const old=orders.find(o=>o.store===p.store && o.item===p.item);
+    if(old)old.qty+=p.qty;
+    else orders.push({id:uid(),store:p.store,item:p.item,qty:p.qty,ship:0});
+  });
+  $("bulkText").value="";
+  $("bulkMsg").innerHTML='<div class="msg">'+arr.length+'개 저장 완료</div>';
+  save();
+}
+function openShipSheet(id){
+  const o=orders.find(x=>x.id===id);
+  if(!o)return;
+  activeShipId=id;
+  activeShipQty=1;
+  $("shipTitle").textContent=o.item+" 출고";
+  $("shipInfo").innerHTML="주문: "+o.qty+"<br>출고됨: "+o.ship+"<br>남음: "+remain(o);
+  $("shipQty").textContent=activeShipQty;
+  $("shipOverlay").classList.add("on");
+}
+function closeShipSheet(){
+  activeShipId=null;
+  $("shipOverlay").classList.remove("on");
+}
+function changeShipQty(delta){
+  const o=orders.find(x=>x.id===activeShipId);
+  if(!o)return;
+  const max=remain(o);
+  activeShipQty=Math.max(1,Math.min(max,activeShipQty+delta));
+  $("shipQty").textContent=activeShipQty;
+}
+function confirmShip(){
+  const o=orders.find(x=>x.id===activeShipId);
+  if(!o)return;
+  o.ship+=Math.min(activeShipQty,remain(o));
+  closeShipSheet();
+  save();
+}
+function shipAllFromSheet(){
+  const o=orders.find(x=>x.id===activeShipId);
+  if(!o)return;
+  o.ship=o.qty;
+  closeShipSheet();
+  save();
+}
+function remainByStore(){
+  $("remainBox").innerHTML=STORES.map(s=>{
+    const r=orders.filter(o=>o.store===s).reduce((a,o)=>a+remain(o),0);
+    return '<div class="msg">'+s+' '+r+'</div>';
+  }).join("");
+}
+function remainByItem(){
+  const map={};
+  orders.forEach(o=>{const r=remain(o);if(r>0)map[o.item]=(map[o.item]||0)+r});
+  $("remainBox").innerHTML=Object.keys(map).length?Object.entries(map).map(([k,v])=>'<div class="msg">'+k+' '+v+'</div>').join(""):'<div class="msg">미출 없음</div>';
+}
+function resetAll(){
+  if(!confirm("전체 초기화?"))return;
+  orders=[];
+  save();
+}
+function backup(){
+  const blob=new Blob([JSON.stringify(orders,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="order_basic_backup.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+render();
+go("home");
+</script>
+</body>
+</html>

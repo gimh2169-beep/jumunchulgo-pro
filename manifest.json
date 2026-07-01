@@ -1,7 +1,7 @@
 {
   "name": "Order BASIC",
   "short_name": "BASIC",
-  "start_url": "./index.html?v=basic1",
+  "start_url": "./index.html?v=basic2",
   "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
