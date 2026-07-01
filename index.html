@@ -460,7 +460,8 @@ function renderRows(a,btn){
 function ship(id,q){
  let r=rows.find(x=>x.id==id);
  if(!r)return;
- let take=(q===undefined||q===null)?rem(r):Number(q);
+ let remain=rem(r);
+ let take=(q===undefined||q===null)?remain:Number(q);
  if(isNaN(take)||take<=0)return;
  r.ship=Math.max(0,r.ship+take);
  hist.push({type:"출고",time:now(),changes:[{id,qty:take,store:r.store,item:r.item,unit:r.unit||""}]});
@@ -504,39 +505,48 @@ function itemRemainList(){
    (groups[r.item]??=[]).push(r);
  });
  let html="";
+ let usedItems=new Set();
+ function renderItemGroup(item){
+   usedItems.add(item);
+   let arr=groups[item];
+   let qty=arr.reduce((a,r)=>a+rem(r),0);
+   html+=`<details class="issue"><summary>${item}<span class="rem" style="float:right">미출 ${qty}</span></summary>`;
+   arr.forEach(r=>{
+     if(r.needCheck){
+       html+=`<div class="listrow">
+       <div><div class="li_name">${r.store} ${r.item} ⚠️</div><div class="li_sub">원문: ${r.note}</div></div>
+       <div class="li_rem">확인필요</div>
+       <button class="p act" data-act="edit" data-id="${r.id}">수정</button>
+       <button class="w act" data-act="delete" data-id="${r.id}">삭제</button>
+       <button class="p act" data-act="edit" data-id="${r.id}">반영</button>
+       <button class="w act" data-act="direct" data-id="${r.id}">직접</button>
+       </div>`;
+     }else{
+       html+=`<div class="listrow">
+       <div><div class="li_name">${r.store}</div><div class="li_sub">주문 ${r.order}${r.unit||""} / 출고 ${r.ship}${r.unit||""}</div></div>
+       <div class="li_rem">잔량 ${rem(r)}${r.unit||""}</div>
+       <button class="ok act" data-act="all" data-id="${r.id}">출고</button>
+       <button class="act" data-act="plus" data-id="${r.id}">+1</button>
+       <button class="w act" data-act="minus" data-id="${r.id}">-1</button>
+       <button class="w act" data-act="direct" data-id="${r.id}">직접</button>
+       </div>`;
+     }
+   });
+   html+="</details>";
+ }
  CATEGORY_ORDER.forEach(cat=>{
    let items=cat.items.filter(i=>groups[i]);
    if(!items.length)return;
    html+=`<details class="issue" open><summary><b>${cat.name}</b></summary>`;
-   items.forEach(item=>{
-      let arr=groups[item];
-      let qty=arr.reduce((a,r)=>a+rem(r),0);
-      html+=`<details class="issue"><summary>${item}<span class="rem" style="float:right">미출 ${qty}</span></summary>`;
-      arr.forEach(r=>{
-        if(r.needCheck){
-          html+=`<div class="listrow">
-          <div><div class="li_name">${r.store} ${r.item} ⚠️</div><div class="li_sub">원문: ${r.note}</div></div>
-          <div class="li_rem">확인필요</div>
-          <button class="p act" data-act="edit" data-id="${r.id}">수정</button>
-          <button class="w act" data-act="delete" data-id="${r.id}">삭제</button>
-          <button class="p act" data-act="edit" data-id="${r.id}">반영</button>
-          <button class="w act" data-act="direct" data-id="${r.id}">직접</button>
-          </div>`;
-        }else{
-          html+=`<div class="listrow">
-          <div><div class="li_name">${r.store}</div><div class="li_sub">주문 ${r.order}${r.unit||""} / 출고 ${r.ship}${r.unit||""}</div></div>
-          <div class="li_rem">잔량 ${rem(r)}${r.unit||""}</div>
-          <button class="ok act" data-act="all" data-id="${r.id}">출고</button>
-          <button class="act" data-act="plus" data-id="${r.id}">+1</button>
-          <button class="w act" data-act="minus" data-id="${r.id}">-1</button>
-          <button class="w act" data-act="direct" data-id="${r.id}">직접</button>
-          </div>`;
-        }
-      });
-      html+="</details>";
-   });
+   items.forEach(renderItemGroup);
    html+="</details>";
  });
+ let extraItems=Object.keys(groups).filter(i=>!usedItems.has(i)).sort();
+ if(extraItems.length){
+   html+=`<details class="issue" open><summary><b>기타/미분류</b></summary>`;
+   extraItems.forEach(renderItemGroup);
+   html+="</details>";
+ }
  searchOut.innerHTML=html||"<div class='msg good'>미출고 없음</div>";
 }
 function storeRemainList(){
@@ -614,7 +624,7 @@ function shipSearch(){
   save();
  }
 }
-function undo(){for(let i=hist.length-1;i>=0;i--){if(hist[i].type=="출고"){hist[i].changes.forEach(c=>{let r=rows.find(x=>x.id==c.id);if(r)r.ship=Math.max(0,r.ship-c.qty)});hist.splice(i,1);save();return}}alert("취소할 출고 없음")}
+function undo(){for(let i=hist.length-1;i>=0;i--){if(hist[i].changes&&hist[i].changes.length){hist[i].changes.forEach(c=>{let r=rows.find(x=>x.id==c.id);if(r)r.ship=Math.max(0,r.ship-c.qty)});hist.splice(i,1);save();return}}alert("취소할 출고 없음")}
 function drawLogs(){logBox.innerHTML=hist.slice().reverse().map(l=>`<div class=issue><b>${l.type}</b> <span class=small>${l.time}</span><br>${l.changes?l.changes.map(c=>c.store+" "+c.item+" "+c.qty+c.unit).join(", "):l.text}</div>`).join("")||"<div class='msg info'>로그 없음</div>"}
 function makeReport(){let o=rows.reduce((a,r)=>a+r.order,0),s=rows.reduce((a,r)=>a+r.ship,0),m=rows.reduce((a,r)=>a+rem(r),0);reportBox.innerHTML=`<div class=issue><b>하루 종료 리포트</b><br>주문 ${o} / 출고 ${s} / 미출 ${m}<br>출고율 ${o?Math.round(s/o*100):0}%</div>`}
 function backup(){let data=JSON.stringify({rows,hist,sel,showDone,at:new Date().toISOString()},null,2),b=new Blob([data],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="주문출고_PRO_v43_백업.json";a.click()}
